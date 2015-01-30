@@ -60,7 +60,14 @@ Packet layout
 typedef struct
 {
 char subprotocol_code [SUBPROTOCOL_CODE_LEN]; 
-} packet_t;
+} packet_header_t;
+
+typedef struct
+{
+  char** sections;
+  int num_sections;
+  int* section_sizes;
+} packet_body_generic_t;
 
 /************************
 PROTOCOLS

@@ -38,5 +38,63 @@ a session, such that multiple chunks can be treaten in a parallel
 fashion, and still warrant the chunks to be rearranged in the
 right order.
 
+Naturally, this protocol is intended to be run over TCP/IP network,
+i.e. there is an underlying session capable protocol. Anyway it
+could be useful to devise a datagram-based version for short messaging.
+
 To allow multiple types of communication, an application-level
 packet layout must be set conveniently.
+
+Packet Layout
+
+HEADER                      BODY
++---------------------------+----------------------------...----------------+
+|                           |
+|                           |
++-> Subprotocol Code        |
+|                           |
++-> Session ID              |
+|                           |
++-> Packet ID               |
+|                           |
++-> Command Code            |
+|                           |
++-> Options                 |
+|                           |
++-> Body length: bytes      |
+                            |
+			    |
+			    |
+			    |
+			    +---> data (prime number, encrypted data, file name,
+			          protocol command code details or text);
+			    	  the structure depends on the particular command
+				  being issued.
+
+Subprotocol
+Protocol provides ways to transfer a file from or to a server, i.e.
+two basic operations are provided: get and put.
+These operations are always to be seen from client-viewpoint. The get
+operation aims to get a file from the server, while the put operation
+aims to send a file to the server. The subprotocol code identifies the
+version of the protocol and the operation which is to be performed.
+
+Session
+Any operation initializes a session context, identified by an ID.
+
+Packet ID
+Packets are numbered, so that they can be conveniently reordered once
+they are received in a possibily unordered fashion.
+
+Commands
+During communication, both the ends send commands to each other to accomplish
+several tasks: negotiating protocol parameters, sending a prime, sending a number,
+specifying a file name or length.
+
+Options
+A command may be accompanied by some options which will affect the other end's
+behaviour.
+
+Body Length
+The receiving end is told the length of the body, i.e. the bytes he's supposed to
+read to complete the acquisition of the packet.
