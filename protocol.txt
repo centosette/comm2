@@ -1,0 +1,42 @@
+Massey Omura File Transfer Protocol
+
+1. General information
+MOF aims to secure file transfer through Massey-Omura algorithm. The communication takes place between two ends, which we call Initiator (I) and Responder (R).
+The core part (CORE) of the algorithm is made up of the following steps:
+
+I1) initiator chooses a random prime number P.
+I2) P is sent to R.
+I3) I computes Ei of Z*(P-1)
+I4) I computes Di = Ei ^ -1 in Z*(P-1)
+R1) R receives P
+R2) R computes Er of Z*(P-1)
+R3) R computes Dr = Er ^ -1 in Z*(P-1)
+I5) I computes C = M ^ Ei mod (P)
+I6) C is sent to R
+R4) R receives C
+R5) R computes D = C^Er mod (P)
+R6) D is sent to I
+I7) I receives D
+I8) I computes E = D ^ Di mod (P)
+I9) I sends E to R
+R7) R receives E
+R8) R computes M = E ^ Dr mod (P)
+
+This technique provides secure transmission of the message M,
+apart from the authentication, which is not guaranteed.
+Anyway, every chunk of data needs to be "treaten" 4 times and
+takes 3 transmissions to be finally delivered.
+There are some ways to lessen the waste:
+a) Use CORE just to share a secret, then use plain block cipher
+to encrypt/decrypt. The secret could be periodically changed in
+a random way during the communication.
+b) Use CORE to transmit each chunk, but the prime number P is
+shared once per session (or periodically changed). This allows to
+use (Ei,Di,Er,Dr) more than once per chunk.
+c) In any case, let the communication take place within a frame,
+a session, such that multiple chunks can be treaten in a parallel
+fashion, and still warrant the chunks to be rearranged in the
+right order.
+
+To allow multiple types of communication, an application-level
+packet layout must be set conveniently.
