@@ -17,6 +17,8 @@ Defines application level packet structure and operations on subprotocols:
 #include <time.h>
 #include <features.h>
 
+//General configuration
+
 #define PROTO_LIBRARY_SIZE 4
 #define PROTO_NAME_LENGTH 5
 #define MAX_FILENAME_LENGTH FILENAME_MAX
@@ -24,8 +26,13 @@ Defines application level packet structure and operations on subprotocols:
 #define CLOCK_ID CLOCK_MONOTONIC
 
 
+//stereotype of a server side protocol module
 typedef int (* proto_module_t) (int socket_descriptor);
+
+//stereotype of a client side protocol module
 typedef int (* client_module_t) (int socket_descriptor, const char * filename);
+
+
 typedef struct
 {
   char proto_name[PROTO_NAME_LENGTH];
