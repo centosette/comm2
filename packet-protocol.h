@@ -67,6 +67,7 @@ typedef struct
   char** sections;
   int num_sections;
   int* section_sizes;
+  int body_len;
 } packet_body_generic_t;
 
 /************************
