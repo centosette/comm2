@@ -16,6 +16,7 @@ exponent (e.g. BUFSIZE = 512 -> LB = 2 ^ 4096), it is necessary
 to define a much smaller max number of read bytes, such as 32.
 This means that a maximum of 32 bytes at a time can be read from
 any file the program is going to transfer.
+If this is the case, P will be greater than 2^(32 * 8) = 2 ^ 256.
 			     */
 /**************************************************************
 ----------------------------------------------------------
